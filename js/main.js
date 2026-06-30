@@ -50,9 +50,6 @@ function renderHeader() {
       </button>
       <div class="nav__menu" id="navMenu">
         <ul class="nav__links">${links}</ul>
-        <div class="nav__cta">
-          <a class="btn btn--rsvp" href="rsvp.html">RSVP</a>
-        </div>
       </div>
     </nav>
   </header>`;
