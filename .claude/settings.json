@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s \"https://api.github.com/repos/nextlevelbuilder/ui-ux-pro-max-skill/git/trees/main?recursive=1\")",
+      "Bash(py --version)"
+    ]
+  }
+}

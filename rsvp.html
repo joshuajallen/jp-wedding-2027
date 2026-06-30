@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RSVP &middot; Prerna &amp; Josh</title>
+  <meta name="description" content="RSVP for Prerna & Josh's wedding in Kenya, June 2027." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <main id="main">
+
+    <!-- MODULE: RSVP hero + dominant link -->
+    <section class="hero">
+      <div class="hero__inner container">
+        <span class="eyebrow">RSVP</span>
+        <h1 class="hero__names">Will you join us?</h1>
+        <p class="hero__date">June 12&ndash;15, 2027 &middot; Kenya</p>
+        <p class="lead">[Attendance confirmation message placeholder — e.g. please RSVP by [date].]</p>
+        <div class="hero__cta">
+          <a class="btn btn--rsvp btn--rsvp-lg" href="#" data-rsvp-link>RSVP via our form</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2c0 5-4 7-4 11a4 4 0 0 0 8 0c0-4-4-6-4-11Z"/><path d="M12 22V11"/></svg>
+    </div>
+
+    <!-- MODULE: Quick capture (placeholder fields only) -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Quick details</h2>
+          <p class="muted">[Placeholder form — no backend yet. The button above is the official RSVP. These fields are illustrative.]</p>
+        </div>
+
+        <form class="form card" onsubmit="return false;" aria-label="RSVP quick capture (placeholder)">
+          <div class="form__row">
+            <label for="guestName">Full name</label>
+            <input type="text" id="guestName" name="guestName" placeholder="[Guest full name]" autocomplete="name" />
+          </div>
+          <div class="form__row">
+            <label for="guestEmail">Email address</label>
+            <input type="email" id="guestEmail" name="guestEmail" placeholder="[guest@email.com]" autocomplete="email" />
+          </div>
+          <div class="form__row">
+            <label for="attending">Will you attend?</label>
+            <select id="attending" name="attending">
+              <option value="" disabled selected>[Select an option]</option>
+              <option value="yes">Joyfully accepts</option>
+              <option value="no">Regretfully declines</option>
+            </select>
+          </div>
+          <div class="form__row">
+            <label for="notes">Anything we should know?</label>
+            <textarea id="notes" name="notes" rows="3" placeholder="[Dietary needs, questions, etc.]"></textarea>
+          </div>
+          <p class="note">This form is a placeholder and does not submit anywhere yet. Please use the RSVP button above.</p>
+          <div class="text-center">
+            <a class="btn btn--rsvp" href="#" data-rsvp-link>Go to the RSVP form</a>
+          </div>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="js/main.js"></script>
+</body>
+</html>
