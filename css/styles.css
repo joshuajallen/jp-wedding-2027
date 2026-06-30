@@ -6,17 +6,30 @@
 
 /* ---------- Design tokens ---------- */
 :root {
-  /* Core safari palette */
-  --color-terracotta: #b5532a;   /* warm terracotta / rust */
-  --color-rust-dark:  #8f3f1e;   /* deeper rust (hover) */
-  --color-olive:      #7c7b3f;   /* olive */
-  --color-forest:     #2f4233;   /* deep forest green */
-  --color-cream:      #f4ecd9;   /* cream / parchment background */
-  --color-cream-soft: #faf5e9;   /* lighter parchment for cards */
-  --color-ochre:      #cf9b3f;   /* ochre / mustard accent */
-  --color-ochre-soft: #e3c179;
-  --color-espresso:   #2c2118;   /* dark espresso-brown text / borders */
-  --color-espresso-70: rgba(44, 33, 24, 0.7);
+  /* Palette drawn directly from the save-the-date illustration:
+     antique, muted, vintage — never bright/neon. Dark & classy. */
+  --color-brick:      #9c4a32;   /* muted brick-red (the sari) */
+  --color-brick-dark: #7a3826;   /* deeper brick (hover) */
+  --color-rust:       #8a4a2c;   /* warm terracotta-brown */
+  --color-olive:      #5c5f3a;   /* dusty olive */
+  --color-olive-deep: #44492c;   /* deeper olive */
+  --color-forest:     #34452f;   /* muted forest green (the tree) */
+  --color-forest-deep:#222d1e;   /* near-black forest */
+  --color-bark:       #6b4423;   /* mid warm brown (poster border) */
+  --color-bark-dark:  #4a2f17;   /* deep aged brown */
+  --color-espresso:   #2a1d12;   /* dark espresso-brown — text/borders */
+  --color-espresso-deep:#1d130b; /* darkest brown — rich panels */
+  --color-cream:      #e3d7b8;   /* earthy khaki parchment background */
+  --color-cream-soft: #ece2c6;   /* lighter khaki for cards */
+  --color-sand:       #d6c7a0;   /* deeper sand/khaki for alternating sections */
+  --color-gold:       #b0894c;   /* antique brass/gold — fine accents only */
+  --color-gold-soft:  #c9a86a;   /* lighter antique gold */
+  --color-espresso-70: rgba(42, 29, 18, 0.74);
+
+  /* Restrained gradients — deep, tonal, never flashy */
+  --grad-bark:    linear-gradient(160deg, #4a2f17 0%, #2a1d12 100%);
+  --grad-forest:  linear-gradient(160deg, #34452f 0%, #222d1e 100%);
+  --grad-parchment: linear-gradient(180deg, #f3ead4 0%, #e6d8b8 100%);
 
   /* Semantic mappings */
   --bg:            var(--color-cream);
@@ -24,9 +37,9 @@
   --text:          var(--color-espresso);
   --text-muted:    var(--color-espresso-70);
   --heading:       var(--color-forest);
-  --accent:        var(--color-terracotta);
-  --accent-hover:  var(--color-rust-dark);
-  --border:        rgba(44, 33, 24, 0.18);
+  --accent:        var(--color-brick);
+  --accent-hover:  var(--color-brick-dark);
+  --border:        rgba(42, 29, 18, 0.22);
 
   /* Typography */
   --font-serif: "Cormorant Garamond", "Playfair Display", Georgia, "Times New Roman", serif;
@@ -59,10 +72,13 @@ body {
   line-height: 1.7;
   color: var(--text);
   background-color: var(--bg);
-  /* faint topographic / foliage motif */
+  /* faint aged-parchment motif: soft tonal washes + subtle contour lines.
+     Deliberately muted — adds warmth/texture, never colour "pop". */
   background-image:
-    radial-gradient(circle at 12% 18%, rgba(124, 123, 63, 0.05) 0, transparent 38%),
-    radial-gradient(circle at 88% 72%, rgba(181, 83, 42, 0.05) 0, transparent 40%);
+    radial-gradient(circle at 16% 10%, rgba(107, 68, 35, 0.06) 0, transparent 44%),
+    radial-gradient(circle at 84% 6%, rgba(92, 95, 58, 0.06) 0, transparent 42%),
+    radial-gradient(circle at 78% 90%, rgba(52, 69, 47, 0.06) 0, transparent 46%),
+    repeating-radial-gradient(circle at 50% 120%, rgba(42, 29, 18, 0.02) 0 1px, transparent 1px 48px);
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
 }
@@ -185,13 +201,31 @@ p { margin: 0 0 1em; }
 
 /* ---------- Cards ---------- */
 .card {
+  position: relative;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: var(--space-md);
   box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: transform var(--transition), box-shadow var(--transition);
 }
-.card h3 { margin-top: 0; }
+/* fine antique-gold rule across the top of each card */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-gold) 30%, var(--color-gold) 70%, transparent);
+  opacity: 0.7;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px rgba(29, 19, 11, 0.18);
+}
+.card h3 { margin-top: 0.3rem; }
 
 /* ---------- Buttons ---------- */
 .btn {
@@ -216,22 +250,25 @@ p { margin: 0 0 1em; }
   color: var(--color-cream);
 }
 
-/* RSVP — the dominant CTA */
+/* RSVP — the dominant CTA. Solid, deep brick-red with a fine antique-gold
+   frame: bold and high-contrast, but classic rather than flashy. */
 .btn--rsvp {
-  background: var(--accent);
+  position: relative;
+  background: var(--color-brick);
   color: var(--color-cream);
   text-transform: uppercase;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   font-size: 1rem;
   padding: 1rem 2.6rem;
-  border-color: var(--accent);
-  box-shadow: 0 8px 22px rgba(181, 83, 42, 0.35);
+  border: 1px solid var(--color-gold);
+  box-shadow: 0 8px 22px rgba(29, 19, 11, 0.32), inset 0 0 0 1px rgba(176, 137, 76, 0.35);
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 .btn--rsvp:hover {
-  background: var(--accent-hover);
-  border-color: var(--accent-hover);
-  color: var(--color-cream);
+  background: var(--color-brick-dark);
+  color: #fff;
   transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(29, 19, 11, 0.42), inset 0 0 0 1px var(--color-gold-soft);
 }
 .btn--rsvp-lg {
   font-size: 1.25rem;
@@ -244,10 +281,15 @@ p { margin: 0 0 1em; }
 .site-header {
   position: sticky;
   top: 0;
-  z-index: 100;
-  background: rgba(244, 236, 217, 0.95);
+  /* Must sit ABOVE .nav__backdrop (z-index 110). The header creates a
+     stacking context, so the mobile drawer nested inside it can only
+     stack relative to the header — if the header were below the
+     backdrop, the backdrop would cover the menu links and swallow taps. */
+  z-index: 200;
+  background: rgba(227, 215, 184, 0.96);
   backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--color-gold);
+  box-shadow: 0 1px 0 rgba(42, 29, 18, 0.08);
 }
 .nav {
   display: flex;
@@ -300,9 +342,10 @@ p { margin: 0 0 1em; }
   background: rgba(181, 83, 42, 0.06);
 }
 .nav__links a.is-active {
-  color: var(--color-cream);
-  background: var(--color-forest);
+  color: #fff;
+  background: var(--grad-forest);
   border-color: var(--color-forest);
+  box-shadow: 0 4px 12px rgba(35, 58, 46, 0.3);
 }
 
 .nav__toggle {
@@ -408,32 +451,55 @@ body.nav-open {
 /* ===================================================================
    HERO (Home)
    =================================================================== */
+/* Dark, classy hero: a deep espresso panel framed in antique gold,
+   echoing the bordered save-the-date. Cream serif type on dark. */
 .hero {
   position: relative;
   text-align: center;
-  padding-block: clamp(3.5rem, 9vw, 7rem);
+  padding-block: clamp(4rem, 9vw, 8rem);
+  color: var(--color-cream);
   background:
-    linear-gradient(rgba(47, 66, 51, 0.04), rgba(47, 66, 51, 0.04));
+    radial-gradient(ellipse at 50% 0%, rgba(156, 74, 50, 0.18) 0, transparent 60%),
+    radial-gradient(ellipse at 50% 115%, rgba(0, 0, 0, 0.28) 0, transparent 65%),
+    var(--grad-forest);
+  border-bottom: 2px solid var(--color-gold);
   overflow: hidden;
+}
+/* thin inset gold frame, like the poster border */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border: 1px solid rgba(176, 137, 76, 0.5);
+  pointer-events: none;
+  z-index: 1;
 }
 .hero__inner { position: relative; z-index: 2; max-width: 760px; margin-inline: auto; }
 .hero__names {
+  color: var(--color-cream);
   font-size: clamp(2.8rem, 9vw, 5.5rem);
-  margin-bottom: 0.2em;
+  margin-bottom: 0.25em;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
 }
+.hero__names span { color: var(--color-gold-soft); }
+.hero .eyebrow { color: var(--color-gold-soft); }
 .hero__date {
+  display: inline-block;
   font-family: var(--font-sans);
   letter-spacing: 0.22em;
   text-transform: uppercase;
   font-size: clamp(0.85rem, 2.5vw, 1.05rem);
-  color: var(--color-terracotta);
+  color: var(--color-gold-soft);
   font-weight: 600;
+  padding: 0.35rem 1.2rem;
+  border-top: 1px solid rgba(176, 137, 76, 0.7);
+  border-bottom: 1px solid rgba(176, 137, 76, 0.7);
 }
 .hero__location {
   font-family: var(--font-serif);
   font-size: clamp(1.2rem, 3vw, 1.6rem);
-  color: var(--color-forest);
-  margin-top: 0.3rem;
+  color: rgba(240, 230, 207, 0.92);
+  margin-top: 0.6rem;
 }
 .hero__cta { margin-top: var(--space-md); }
 
@@ -459,19 +525,33 @@ body.nav-open {
 }
 .quicklink:hover {
   transform: translateY(-4px);
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: transparent;
+  color: #fff;
+  background: var(--grad-forest);
+  box-shadow: 0 14px 30px rgba(35, 58, 46, 0.28);
 }
 
 /* ===================================================================
    Page banner (interior pages)
    =================================================================== */
 .page-banner {
+  position: relative;
   text-align: center;
   padding-block: var(--space-lg) var(--space-md);
-  background: linear-gradient(rgba(47, 66, 51, 0.05), transparent);
+  background:
+    radial-gradient(ellipse at 50% -30%, rgba(156, 74, 50, 0.10) 0, transparent 62%),
+    linear-gradient(rgba(52, 69, 47, 0.05), transparent);
+  border-bottom: 1px solid var(--color-gold);
 }
 .page-banner h1 { margin-bottom: 0.2em; }
+.page-banner h1::after {
+  content: "";
+  display: block;
+  width: 70px;
+  height: 2px;
+  margin: 0.7rem auto 0;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+}
 .page-banner p { color: var(--text-muted); max-width: 640px; margin-inline: auto; }
 
 /* ---------- Detail / definition rows ---------- */
@@ -496,7 +576,7 @@ body.nav-open {
 /* badges / tags */
 .badge {
   display: inline-block;
-  background: var(--color-ochre-soft);
+  background: var(--color-gold-soft);
   color: var(--color-espresso);
   font-size: 0.75rem;
   font-weight: 600;
@@ -572,9 +652,10 @@ body.nav-open {
 }
 .tabs__btn:hover { border-color: var(--accent); color: var(--accent); }
 .tabs__btn.is-active {
-  background: var(--color-forest);
+  background: var(--grad-forest);
   color: var(--color-cream);
-  border-color: var(--color-forest);
+  border-color: var(--color-gold);
+  box-shadow: 0 6px 16px rgba(34, 45, 30, 0.32);
 }
 .tabs__panel { display: none; }
 .tabs__panel.is-active { display: block; animation: fade 0.4s ease; }
@@ -609,7 +690,7 @@ body.nav-open {
 .form input:focus,
 .form select:focus,
 .form textarea:focus {
-  outline: 2px solid var(--color-ochre);
+  outline: 2px solid var(--color-gold);
   outline-offset: 1px;
 }
 .form .note { font-size: 0.85rem; color: var(--text-muted); }
@@ -618,12 +699,23 @@ body.nav-open {
    FOOTER  (injected component)
    =================================================================== */
 .site-footer {
-  background: var(--color-forest);
+  position: relative;
+  background: var(--grad-forest);
   color: var(--color-cream);
   padding-block: var(--space-lg) var(--space-md);
   margin-top: var(--space-xl);
 }
-.site-footer a { color: var(--color-ochre-soft); }
+/* fine antique-gold top rule */
+.site-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+}
+.site-footer a { color: var(--color-gold-soft); }
 .site-footer a:hover { color: #fff; }
 .footer__grid {
   display: grid;
@@ -640,7 +732,7 @@ body.nav-open {
   font-size: 1.6rem;
   margin-bottom: 0.4rem;
 }
-.footer__brand span { color: var(--color-ochre-soft); }
+.footer__brand span { color: var(--color-gold-soft); }
 .footer h4 {
   color: var(--color-cream);
   font-family: var(--font-sans);

@@ -129,17 +129,18 @@ function initMobileMenu() {
     toggle.setAttribute("aria-label", "Close menu");
   }
 
-  function closeMenu() {
+  function closeMenu(restoreScroll = true) {
     menu.classList.remove("is-open");
     if (backdrop) {
       backdrop.classList.remove("is-open");
       // Hide after the fade-out so it doesn't block taps.
       setTimeout(() => { backdrop.hidden = true; }, 260);
     }
-    // Release the scroll lock and restore the exact previous position.
+    // Release the scroll lock.
     document.body.classList.remove("nav-open");
     document.body.style.top = "";
-    window.scrollTo(0, savedScrollY);
+    // Only restore the previous scroll position when staying on the page.
+    if (restoreScroll) window.scrollTo(0, savedScrollY);
 
     toggle.setAttribute("aria-expanded", "false");
     toggle.setAttribute("aria-label", "Open menu");
@@ -151,8 +152,13 @@ function initMobileMenu() {
   }
 
   toggle.addEventListener("click", toggleMenu);
-  if (backdrop) backdrop.addEventListener("click", closeMenu);
-  menu.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMenu));
+  if (backdrop) backdrop.addEventListener("click", () => closeMenu());
+
+  // IMPORTANT: do NOT add a click handler to the nav links.
+  // Each link navigates to a separate page, so the browser does the
+  // navigation natively and the new page loads with a clean (unlocked)
+  // body. Mutating the body layout here during the tap would cancel the
+  // navigation on mobile browsers (the bug we're fixing).
 
   // Close on Escape, and tidy up if resized back to desktop.
   document.addEventListener("keydown", e => {
