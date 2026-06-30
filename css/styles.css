@@ -264,6 +264,7 @@ p { margin: 0 0 1em; }
   font-weight: 600;
   color: var(--color-forest);
   white-space: nowrap;
+  flex: 0 0 auto;
 }
 .nav__brand span { color: var(--accent); }
 
@@ -394,8 +395,14 @@ p { margin: 0 0 1em; }
     font-size: 1.1rem;
     text-align: center;
   }
-  /* Prevent the page behind from scrolling while the menu is open */
-  body.nav-open { overflow: hidden; }
+}
+
+/* Lock the page behind the open drawer without a scroll "jump".
+   JS sets `top: -<scrollY>px` so the page stays visually put. */
+body.nav-open {
+  position: fixed;
+  width: 100%;
+  overflow: hidden;
 }
 
 /* ===================================================================

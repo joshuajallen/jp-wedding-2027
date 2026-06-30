@@ -114,10 +114,17 @@ function initMobileMenu() {
   const backdrop = document.getElementById("navBackdrop");
   if (!toggle || !menu) return;
 
+  let savedScrollY = 0;
+
   function openMenu() {
+    // Lock body scroll without a "jump": pin the body at the current
+    // scroll offset (position: fixed + negative top via CSS class).
+    savedScrollY = window.scrollY || window.pageYOffset || 0;
+    document.body.style.top = `-${savedScrollY}px`;
+    document.body.classList.add("nav-open");
+
     menu.classList.add("is-open");
     if (backdrop) { backdrop.hidden = false; requestAnimationFrame(() => backdrop.classList.add("is-open")); }
-    document.body.classList.add("nav-open");
     toggle.setAttribute("aria-expanded", "true");
     toggle.setAttribute("aria-label", "Close menu");
   }
@@ -129,7 +136,11 @@ function initMobileMenu() {
       // Hide after the fade-out so it doesn't block taps.
       setTimeout(() => { backdrop.hidden = true; }, 260);
     }
+    // Release the scroll lock and restore the exact previous position.
     document.body.classList.remove("nav-open");
+    document.body.style.top = "";
+    window.scrollTo(0, savedScrollY);
+
     toggle.setAttribute("aria-expanded", "false");
     toggle.setAttribute("aria-label", "Open menu");
   }
