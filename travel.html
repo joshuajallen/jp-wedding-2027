@@ -7,7 +7,8 @@
   <meta name="description" content="Airports, airlines, visas, vaccinations, transfers, local transport, currency and weather for travelling to Kenya." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" /></noscript>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
@@ -39,21 +40,41 @@
         <div class="card">
           <span class="eyebrow">Airlines</span>
           <h3>Suggested airlines</h3>
-          <ul class="detail-list">
-            <li><span class="label">Carrier 1</span><span>[Airline placeholder]</span></li>
-            <li><span class="label">Carrier 2</span><span>[Airline placeholder]</span></li>
-            <li><span class="label">Carrier 3</span><span>[Airline placeholder]</span></li>
-          </ul>
+          <p class="muted">See the UK and India sections below for route-specific carriers.</p>
         </div>
       </div>
     </section>
 
-    <!-- MODULE: Recommended routes -->
+    <!-- MODULE: Suggested airlines by origin -->
     <section class="section section--tight">
-      <div class="container section-head">
-        <span class="eyebrow">Routes</span>
-        <h2>Recommended flight routes</h2>
-        <p class="placeholder-text">[Placeholder: suggested routes / connections from major hubs (e.g. London, Dubai, Doha, Amsterdam) into Nairobi.]</p>
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Airlines</span>
+          <h2>Suggested airlines</h2>
+          <p class="muted">Recommended carriers and routes depending on where you're flying from.</p>
+        </div>
+        <div class="grid grid-2">
+          <div class="card">
+            <span class="badge">From the UK</span>
+            <h3>Flying from the UK</h3>
+            <ul class="detail-list">
+              <li><span class="label">Direct</span><span>[Direct carrier from London placeholder]</span></li>
+              <li><span class="label">One-stop</span><span>[One-stop carrier placeholder]</span></li>
+              <li><span class="label">Route</span><span>[Suggested route / hub placeholder]</span></li>
+            </ul>
+            <p class="placeholder-text">[Placeholder: notes on UK departure airports, approximate flight time and tips.]</p>
+          </div>
+          <div class="card">
+            <span class="badge">From India</span>
+            <h3>Flying from India</h3>
+            <ul class="detail-list">
+              <li><span class="label">Direct</span><span>[Direct carrier from India placeholder]</span></li>
+              <li><span class="label">One-stop</span><span>[One-stop carrier placeholder]</span></li>
+              <li><span class="label">Route</span><span>[Suggested route / hub placeholder]</span></li>
+            </ul>
+            <p class="placeholder-text">[Placeholder: notes on Indian departure cities, approximate flight time and tips.]</p>
+          </div>
+        </div>
       </div>
     </section>
 

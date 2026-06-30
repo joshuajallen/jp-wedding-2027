@@ -120,6 +120,52 @@ function mountChrome() {
   }
 }
 
+/* ----- Speed up navigation: prefetch internal pages -----
+   Multi-page static sites re-request each HTML file on navigation.
+   We prefetch same-site pages (1) when the browser is idle and
+   (2) the moment a user hovers/touches a link — so the next page is
+   usually already in cache and loads instantly. CSS/JS/fonts are
+   shared and cached after the first visit. */
+function initPrefetch() {
+  const prefetched = new Set();
+  const supportsPrefetch = (() => {
+    const l = document.createElement("link");
+    return l.relList && l.relList.supports && l.relList.supports("prefetch");
+  })();
+
+  function prefetch(url) {
+    if (!url || prefetched.has(url)) return;
+    prefetched.add(url);
+    if (supportsPrefetch) {
+      const link = document.createElement("link");
+      link.rel = "prefetch";
+      link.href = url;
+      link.as = "document";
+      document.head.appendChild(link);
+    } else {
+      // Fallback: warm the HTTP cache with a quiet fetch.
+      fetch(url, { credentials: "same-origin" }).catch(() => {});
+    }
+  }
+
+  function internalLinks() {
+    return Array.from(document.querySelectorAll('a[href$=".html"]'))
+      .filter(a => a.hostname === window.location.hostname);
+  }
+
+  // Prefetch on hover / focus / touch (intent to navigate).
+  ["mouseover", "touchstart", "focusin"].forEach(evt => {
+    document.addEventListener(evt, e => {
+      const a = e.target.closest && e.target.closest('a[href$=".html"]');
+      if (a && a.hostname === window.location.hostname) prefetch(a.href);
+    }, { passive: true });
+  });
+
+  // Prefetch the rest when the browser is idle.
+  const idle = window.requestIdleCallback || (cb => setTimeout(cb, 1200));
+  idle(() => internalLinks().forEach(a => prefetch(a.href)));
+}
+
 /* ----- FAQ accordion ----- */
 function initAccordions() {
   document.querySelectorAll(".accordion__trigger").forEach(btn => {
@@ -158,4 +204,5 @@ document.addEventListener("DOMContentLoaded", () => {
   mountChrome();
   initAccordions();
   initTabs();
+  initPrefetch();
 });
