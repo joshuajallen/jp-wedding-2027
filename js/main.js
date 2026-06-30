@@ -26,11 +26,19 @@ const SITE = {
   ]
 };
 
+/* Flag that JS is available as early as possible so CSS can decide
+   whether to hide the body for the fade-in (avoids a flash for no-JS). */
+document.documentElement.classList.add("js");
+
+const prefersReducedMotion =
+  window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 /* ----- Determine current page filename ----- */
 function currentPage() {
   const path = window.location.pathname.split("/").pop();
   return path === "" ? "index.html" : path;
 }
+
 
 /* ----- Build header / nav ----- */
 function renderHeader() {
@@ -232,20 +240,106 @@ function initTabs() {
   document.querySelectorAll("[data-tabs]").forEach(group => {
     const buttons = group.querySelectorAll(".tabs__btn");
     const panels = group.querySelectorAll(".tabs__panel");
+
     buttons.forEach(btn => {
       btn.addEventListener("click", () => {
         const target = btn.dataset.tab;
+        const current = group.querySelector(".tabs__panel.is-active");
+        const next = group.querySelector(`.tabs__panel[data-panel="${target}"]`);
+        if (next === current) return;
+
+        // Update the button states immediately.
         buttons.forEach(b => {
           const active = b === btn;
           b.classList.toggle("is-active", active);
           b.setAttribute("aria-selected", String(active));
         });
-        panels.forEach(p =>
-          p.classList.toggle("is-active", p.dataset.panel === target)
-        );
+
+        if (prefersReducedMotion || !current) {
+          panels.forEach(p => {
+            p.classList.remove("is-leaving");
+            p.classList.toggle("is-active", p === next);
+          });
+          return;
+        }
+
+        // Smooth cross-fade: fade the current panel out, then fade the
+        // next one in once the outgoing transition finishes.
+        current.classList.add("is-leaving");
+        current.classList.remove("is-active");
+
+        const swap = () => {
+          current.classList.remove("is-leaving");
+          next.classList.add("is-active");
+          current.removeEventListener("transitionend", swap);
+        };
+        current.addEventListener("transitionend", swap);
+        // Safety fallback in case transitionend doesn't fire.
+        setTimeout(swap, 400);
       });
     });
   });
+}
+
+/* ----- Page-load fade-in + fade-out on internal navigation -----
+   Makes multi-page browsing feel like a single smooth app rather than
+   a hard reload between every tab. */
+function initPageTransitions() {
+  // Reveal the page (CSS hid it for the entrance animation).
+  requestAnimationFrame(() => document.body.classList.add("is-ready"));
+
+  if (prefersReducedMotion) return;
+
+  // Restore visibility if the page is shown again from the bfcache
+  // (e.g. the user taps "back") so it never stays stuck mid-fade-out.
+  window.addEventListener("pageshow", () => {
+    document.body.classList.remove("is-leaving");
+    document.body.classList.add("is-ready");
+  });
+
+  document.addEventListener("click", e => {
+    const a = e.target.closest && e.target.closest("a");
+    if (!a) return;
+
+    const href = a.getAttribute("href");
+    if (!href) return;
+
+    // Ignore new tabs, modifier-clicks, downloads, anchors, and external links.
+    const isModified = e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
+    const isInternal = a.hostname === window.location.hostname && !a.target;
+    const isHash = href.startsWith("#");
+    const isSamePage = a.pathname === window.location.pathname && (isHash || href === "");
+    if (isModified || !isInternal || isHash || isSamePage || a.hasAttribute("download")) return;
+    if (!/\.html?$/.test(a.pathname) && a.pathname !== "/") return;
+
+    // Play the fade-out, then navigate.
+    e.preventDefault();
+    document.body.classList.add("is-leaving");
+    setTimeout(() => { window.location.href = a.href; }, 280);
+  });
+}
+
+/* ----- Reveal-on-scroll -----
+   Adds .is-visible to .reveal elements as they enter the viewport. */
+function initReveal() {
+  const items = document.querySelectorAll(".reveal");
+  if (!items.length) return;
+
+  if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+    items.forEach(el => el.classList.add("is-visible"));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+
+  items.forEach(el => observer.observe(el));
 }
 
 /* ----- Boot ----- */
@@ -254,4 +348,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initAccordions();
   initTabs();
   initPrefetch();
+  initPageTransitions();
+  initReveal();
 });

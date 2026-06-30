@@ -65,6 +65,35 @@
 
 html { scroll-behavior: smooth; }
 
+/* ---------- Page transitions ----------
+   Smooth cross-page experience: every page fades/rises in on load, and
+   fades out just before navigating to another internal page (handled in
+   main.js). Keeps multi-page navigation feeling like a single app. */
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--text);
+  background-color: var(--bg);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+/* JS adds .is-ready on load; if JS is off, the fallback below shows it. */
+body.is-ready {
+  opacity: 1;
+  transform: none;
+}
+body.is-leaving {
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+/* No-JS safety: never leave content invisible. */
+.no-js body,
+html:not(.js) body { opacity: 1; transform: none; }
+
 body {
   margin: 0;
   font-family: var(--font-sans);
@@ -657,9 +686,62 @@ body.nav-open {
   border-color: var(--color-gold);
   box-shadow: 0 6px 16px rgba(34, 45, 30, 0.32);
 }
-.tabs__panel { display: none; }
-.tabs__panel.is-active { display: block; animation: fade 0.4s ease; }
+/* Smooth cross-fade between tab panels. The outgoing panel is faded out
+   (via .is-leaving) before the incoming one fades up, so there's no
+   abrupt jump in height/content. */
+.tabs__panels { position: relative; }
+.tabs__panel {
+  display: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.tabs__panel.is-active {
+  display: block;
+  opacity: 1;
+  transform: none;
+}
+.tabs__panel.is-leaving {
+  display: block;
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+}
 @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Reveal-on-scroll ----------
+   Sections gently rise/fade in as they enter the viewport (JS adds
+   .is-visible via IntersectionObserver). Adds a smooth, premium feel. */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Respect reduced-motion ----------
+   Anyone who prefers reduced motion gets instant, non-animated UI. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  body,
+  body.is-leaving,
+  .reveal,
+  .tabs__panel {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
 
 /* ===================================================================
    Forms (RSVP)
