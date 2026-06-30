@@ -45,14 +45,15 @@ function renderHeader() {
   <header class="site-header">
     <nav class="nav" aria-label="Primary">
       <a class="nav__brand" href="index.html">${SITE.coupleShort}</a>
-      <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navMenu">
+      <button class="nav__toggle" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu">
         <span></span><span></span><span></span>
       </button>
       <div class="nav__menu" id="navMenu">
         <ul class="nav__links">${links}</ul>
       </div>
     </nav>
-  </header>`;
+  </header>
+  <div class="nav__backdrop" id="navBackdrop" hidden></div>`;
 }
 
 /* ----- Build footer ----- */
@@ -103,21 +104,52 @@ function mountChrome() {
     el.setAttribute("rel", "noopener");
   });
 
-  // Mobile menu toggle
+  initMobileMenu();
+}
+
+/* ----- Mobile menu: drawer + backdrop + scroll lock ----- */
+function initMobileMenu() {
   const toggle = document.querySelector(".nav__toggle");
   const menu = document.getElementById("navMenu");
-  if (toggle && menu) {
-    toggle.addEventListener("click", () => {
-      const open = menu.classList.toggle("is-open");
-      toggle.setAttribute("aria-expanded", String(open));
-    });
-    menu.querySelectorAll("a").forEach(a =>
-      a.addEventListener("click", () => {
-        menu.classList.remove("is-open");
-        toggle.setAttribute("aria-expanded", "false");
-      })
-    );
+  const backdrop = document.getElementById("navBackdrop");
+  if (!toggle || !menu) return;
+
+  function openMenu() {
+    menu.classList.add("is-open");
+    if (backdrop) { backdrop.hidden = false; requestAnimationFrame(() => backdrop.classList.add("is-open")); }
+    document.body.classList.add("nav-open");
+    toggle.setAttribute("aria-expanded", "true");
+    toggle.setAttribute("aria-label", "Close menu");
   }
+
+  function closeMenu() {
+    menu.classList.remove("is-open");
+    if (backdrop) {
+      backdrop.classList.remove("is-open");
+      // Hide after the fade-out so it doesn't block taps.
+      setTimeout(() => { backdrop.hidden = true; }, 260);
+    }
+    document.body.classList.remove("nav-open");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Open menu");
+  }
+
+  function toggleMenu() {
+    if (menu.classList.contains("is-open")) closeMenu();
+    else openMenu();
+  }
+
+  toggle.addEventListener("click", toggleMenu);
+  if (backdrop) backdrop.addEventListener("click", closeMenu);
+  menu.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMenu));
+
+  // Close on Escape, and tidy up if resized back to desktop.
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && menu.classList.contains("is-open")) closeMenu();
+  });
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 960 && menu.classList.contains("is-open")) closeMenu();
+  });
 }
 
 /* ----- Speed up navigation: prefetch internal pages -----

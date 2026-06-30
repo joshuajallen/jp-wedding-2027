@@ -306,19 +306,52 @@ p { margin: 0 0 1em; }
 
 .nav__toggle {
   display: none;
+  position: relative;
+  width: 48px;
+  height: 48px;
   background: none;
   border: 0;
   cursor: pointer;
-  padding: 0.4rem;
+  padding: 0;
+  z-index: 130;
+  -webkit-tap-highlight-color: transparent;
 }
 .nav__toggle span {
-  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
   width: 26px;
-  height: 2px;
-  margin: 5px 0;
+  height: 2.5px;
+  margin-left: -13px;
+  border-radius: 2px;
   background: var(--color-espresso);
-  transition: var(--transition);
+  transition: transform 0.3s ease, opacity 0.2s ease, top 0.3s ease;
 }
+.nav__toggle span:nth-child(1) { top: calc(50% - 8px); }
+.nav__toggle span:nth-child(2) { top: 50%; }
+.nav__toggle span:nth-child(3) { top: calc(50% + 8px); }
+/* Animate into an X when open */
+.nav__toggle[aria-expanded="true"] span:nth-child(1) {
+  top: 50%;
+  transform: rotate(45deg);
+}
+.nav__toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav__toggle[aria-expanded="true"] span:nth-child(3) {
+  top: 50%;
+  transform: rotate(-45deg);
+}
+
+/* Backdrop behind the mobile drawer */
+.nav__backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(44, 33, 24, 0.45);
+  opacity: 0;
+  transition: opacity var(--transition);
+  z-index: 110;
+}
+.nav__backdrop.is-open { opacity: 1; }
 
 @media (max-width: 960px) {
   .nav {
@@ -326,30 +359,43 @@ p { margin: 0 0 1em; }
     justify-content: space-between;
   }
   .nav__toggle { display: block; }
+  .nav__backdrop { display: block; pointer-events: none; }
+  .nav__backdrop.is-open { pointer-events: auto; }
   .nav__menu {
     position: fixed;
     inset: 0 0 0 auto;
-    width: min(300px, 80vw);
+    width: min(320px, 84vw);
+    height: 100%;
+    height: 100dvh;
     background: var(--color-cream);
     border-left: 1px solid var(--border);
     flex-direction: column;
-    align-items: flex-start;
-    padding: 5rem 1.5rem 2rem;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: 5.5rem 1.25rem 2rem;
     transform: translateX(100%);
-    transition: transform var(--transition);
-    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+    box-shadow: -8px 0 30px rgba(44, 33, 24, 0.25);
     display: flex;
-    gap: 0.4rem;
+    gap: 0.5rem;
+    z-index: 120;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .nav__menu.is-open { transform: translateX(0); }
   .nav__links {
     flex-direction: column;
     align-items: stretch;
     width: 100%;
+    gap: 0.5rem;
   }
-  .nav__links a { padding: 0.7rem 0.5rem; font-size: 1.05rem; }
-  .nav__cta { margin: 0.8rem 0 0; width: 100%; }
-  .nav__cta .btn { display: block; width: 100%; }
+  .nav__links a {
+    padding: 0.9rem 1rem;
+    font-size: 1.1rem;
+    text-align: center;
+  }
+  /* Prevent the page behind from scrolling while the menu is open */
+  body.nav-open { overflow: hidden; }
 }
 
 /* ===================================================================
