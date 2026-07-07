@@ -21,16 +21,24 @@
   <main id="main">
 
     <!-- ============================================================
-         MODULE: Hero
+         MODULE: Hero - Save the Date on left, text on right
          ============================================================ -->
-    <section class="hero">
-      <div class="hero__inner container">
-        <span class="eyebrow">We're getting married</span>
-        <h1 class="hero__names">Prerna &amp; Josh</h1>
-        <p class="hero__date">June 12&ndash;15, 2027</p>
-        <p class="hero__location">Kenya &middot; [Region / venue name placeholder]</p>
-        <div class="hero__cta">
-          <a class="btn btn--rsvp btn--rsvp-lg" href="#" data-rsvp-link>RSVP</a>
+    <section class="hero" style="padding: 4rem 0;">
+      <div class="container">
+        <div class="grid grid-2" style="gap: 3rem; align-items: center;">
+          <div style="text-align: center;">
+            <img src="resources/save-the-date.png" alt="Save the Date" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 10px 30px rgba(44, 33, 24, 0.12);" />
+          </div>
+          <div style="text-align: center;">
+            <span class="eyebrow">We're getting married</span>
+            <h1 class="hero__names">Prerna &amp; Josh</h1>
+            <p class="hero__date">June 12&ndash;15, 2027</p>
+            <p class="hero__location">Nairobi &amp; Tsavo, Kenya</p>
+            <p style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 500;">RSVP by November 30, 2026</p>
+            <div class="hero__cta" style="margin-top: 2rem;">
+              <a class="btn btn--rsvp btn--rsvp-lg" href="#" data-rsvp-link>RSVP</a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -46,17 +54,7 @@
       <div class="container section-head">
         <span class="eyebrow">Welcome</span>
         <h2>Karibu &mdash; we're so glad you're here</h2>
-        <p class="lead">[Welcome message placeholder — a warm few lines from the couple inviting guests to celebrate with them in Kenya.]</p>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         MODULE: Couple photo(s)
-         ============================================================ -->
-    <section class="section section--tight">
-      <div class="container grid grid-2">
-        <div class="placeholder-img placeholder-img--tall">[Couple photo placeholder 1]</div>
-        <div class="placeholder-img placeholder-img--tall">[Couple photo placeholder 2]</div>
+        <p class="lead">We're so glad you're here. Kenya holds a special place in our hearts, and there's nowhere else we'd rather bring our family and friends together to celebrate this next chapter. We can't wait to share this celebration with you — and we have a feeling you'll leave loving this country as much as we do.</p>
       </div>
     </section>
 
@@ -68,13 +66,33 @@
         <div class="card text-center">
           <span class="eyebrow">When</span>
           <h3>June 12&ndash;15, 2027</h3>
-          <p class="muted">[Multi-day celebration overview placeholder]</p>
+          <p><strong>Evening, June 12:</strong> Welcome Party</p>
+          <p><strong>June 14-15:</strong></p>
+          <ul style="list-style: none; padding: 0; margin: 0.5rem 0 0 0;">
+            <li>Pre-celebration</li>
+            <li>Wedding</li>
+            <li>Reception</li>
+          </ul>
         </div>
         <div class="card text-center">
           <span class="eyebrow">Where</span>
-          <h3>Kenya</h3>
-          <p class="muted">[Venue / region name &amp; short location note placeholder]</p>
+          <h3>Two Special Locations</h3>
+          <p><strong>June 12:</strong> Pickled, Nairobi</p>
+          <p><strong>June 14-15:</strong> Taita Hills Safari Resort &amp; Spa, Tsavo</p>
         </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODULE: Landing page photos
+         ============================================================ -->
+    <section class="section section--tight">
+      <div class="container grid grid-2">
+        <img src="resources/landing photos/001.jpg" alt="Prerna and Josh" style="width: 100%; height: auto; border-radius: 4px; object-fit: cover;" />
+        <img src="resources/landing photos/002.jpg" alt="Prerna and Josh" style="width: 100%; height: auto; border-radius: 4px; object-fit: cover;" />
+      </div>
+      <div class="container" style="margin-top: 2rem;">
+        <img src="resources/landing photos/003.jpg" alt="Prerna and Josh" style="width: 100%; height: auto; border-radius: 4px; object-fit: cover; max-width: 800px; margin: 0 auto; display: block;" />
       </div>
     </section>
 

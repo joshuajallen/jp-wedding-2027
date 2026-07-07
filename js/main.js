@@ -78,7 +78,7 @@ function renderFooter() {
       <div>
         <div class="footer__brand">Prerna <span>&amp;</span> Josh</div>
         <p>June 12&ndash;15, 2027 &middot; Kenya</p>
-        <p class="muted">[Short footer tagline placeholder]</p>
+        <p class="muted">Join us for our next big adventure&mdash;our wedding in Kenya.</p>
       </div>
       <div>
         <h4>Explore</h4>

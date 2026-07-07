@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prerna &amp; Josh</title>
+  <meta name="description" content="Join Prerna & Josh in Kenya, June 12–15, 2027" />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" />
+  
+  <style>
+    :root {
+      --color-cream: #e3d7b8;
+      --color-espresso: #2a1d12;
+      --color-brick: #9c4a32;
+      --color-brick-dark: #7a3826;
+      --font-serif: "Cormorant Garamond", Georgia, serif;
+      --font-sans: "Jost", Arial, sans-serif;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--color-cream);
+      color: var(--color-espresso);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      opacity: 0;
+      animation: fadeIn 0.6s ease forwards;
+    }
+    
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    
+    .landing-container {
+      text-align: center;
+      max-width: 600px;
+      width: 100%;
+    }
+    
+    .envelope-wrapper {
+      margin-bottom: 2rem;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    
+    .envelope-wrapper:hover {
+      transform: scale(1.05);
+    }
+    
+    .envelope-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 10px 40px rgba(42, 29, 18, 0.15);
+    }
+    
+    h1 {
+      font-family: var(--font-serif);
+      font-size: 2.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--color-espresso);
+    }
+    
+    p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      color: var(--color-espresso);
+    }
+    
+    /* Password Modal */
+    .password-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(42, 29, 18, 0.9);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .password-modal.show {
+      display: flex;
+    }
+    
+    .password-content {
+      background: var(--color-cream);
+      padding: 3rem 2.5rem;
+      border-radius: 8px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+    
+    .password-content h2 {
+      font-family: var(--font-serif);
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: var(--color-espresso);
+    }
+    
+    .password-content p {
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+    }
+    
+    .password-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      border: 2px solid rgba(42, 29, 18, 0.2);
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.5);
+      margin-bottom: 1rem;
+      transition: border-color 0.3s ease;
+    }
+    
+    .password-input:focus {
+      outline: none;
+      border-color: var(--color-brick);
+    }
+    
+    .password-btn {
+      width: 100%;
+      padding: 0.75rem 1.5rem;
+      background: var(--color-brick);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    
+    .password-btn:hover {
+      background: var(--color-brick-dark);
+    }
+    
+    .error-message {
+      color: #c74a2b;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+    
+    .error-message.show {
+      display: block;
+    }
+    
+    @media (max-width: 640px) {
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .password-content {
+        padding: 2rem 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="landing-container">
+    <div class="envelope-wrapper" id="envelopeBtn">
+      <img src="resources/landing-page.jpg" alt="Wedding Invitation Envelope" class="envelope-img" />
+    </div>
+    <h1>Prerna &amp; Josh</h1>
+    <p>Click the envelope to open your invitation</p>
+  </div>
+  
+  <!-- Password Modal -->
+  <div class="password-modal" id="passwordModal">
+    <div class="password-content">
+      <h2>Enter Password</h2>
+      <p>Please enter the password to view the wedding website</p>
+      <input 
+        type="password" 
+        class="password-input" 
+        id="passwordInput" 
+        placeholder="Enter password"
+        autocomplete="off"
+      />
+      <button class="password-btn" id="submitPassword">Enter</button>
+      <p class="error-message" id="errorMessage">Incorrect password. Please try again.</p>
+    </div>
+  </div>
+  
+  <script>
+    const CORRECT_PASSWORD = 'jpwedding2027';
+    const envelopeBtn = document.getElementById('envelopeBtn');
+    const passwordModal = document.getElementById('passwordModal');
+    const passwordInput = document.getElementById('passwordInput');
+    const submitBtn = document.getElementById('submitPassword');
+    const errorMessage = document.getElementById('errorMessage');
+    
+    // Check if already authenticated
+    if (sessionStorage.getItem('wedding_authenticated') === 'true') {
+      window.location.href = 'index.html';
+    }
+    
+    // Show password modal when envelope is clicked
+    envelopeBtn.addEventListener('click', () => {
+      passwordModal.classList.add('show');
+      setTimeout(() => passwordInput.focus(), 100);
+    });
+    
+    // Handle password submission
+    function checkPassword() {
+      const password = passwordInput.value.trim();
+      
+      if (password === CORRECT_PASSWORD) {
+        sessionStorage.setItem('wedding_authenticated', 'true');
+        errorMessage.classList.remove('show');
+        window.location.href = 'index.html';
+      } else {
+        errorMessage.classList.add('show');
+        passwordInput.value = '';
+        passwordInput.focus();
+      }
+    }
+    
+    submitBtn.addEventListener('click', checkPassword);
+    
+    passwordInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        checkPassword();
+      }
+    });
+    
+    // Close modal on ESC key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && passwordModal.classList.contains('show')) {
+        passwordModal.classList.remove('show');
+        passwordInput.value = '';
+        errorMessage.classList.remove('show');
+      }
+    });
+  </script>
+</body>
+</html>
