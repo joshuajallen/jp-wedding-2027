@@ -365,6 +365,13 @@ p { margin: 0 0 1em; }
   border-radius: 999px;
   transition: all var(--transition);
 }
+/* Primary tabs are larger and more prominent */
+.nav__links a.primary-tab {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-width: 2px;
+}
 .nav__links a:hover {
   color: var(--accent);
   border-color: var(--accent);

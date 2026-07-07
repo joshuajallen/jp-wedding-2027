@@ -13,15 +13,15 @@ const SITE = {
   rsvpUrl: "#RSVP_LINK_PLACEHOLDER",
   coupleShort: "P <span>&amp;</span> J",
   // Order of nav tabs. `file` matches the page filename.
+  // Primary tabs are shown larger/more prominent
   pages: [
-    { file: "index.html",        label: "Home" },
-    { file: "our-story.html",    label: "Our Story" },
-    { file: "wedding-details.html", label: "Wedding Details" },
+    { file: "index.html",        label: "Home", isPrimary: true },
+    { file: "our-story.html",    label: "Our Story", isPrimary: true },
+    { file: "wedding-details.html", label: "Wedding Details", isPrimary: true },
     { file: "travel.html",       label: "Travel" },
     { file: "accommodation.html", label: "Accommodation" },
     { file: "things-to-do.html", label: "Things To Do" },
     { file: "faq.html",          label: "FAQ" },
-    { file: "contact.html",      label: "Contact" },
     { file: "rsvp.html",         label: "RSVP", isRsvp: true }
   ]
 };
@@ -45,7 +45,14 @@ function renderHeader() {
   const here = currentPage();
   const links = SITE.pages
     .filter(p => !p.isRsvp)
-    .map(p => `<li><a href="${p.file}"${p.file === here ? ' class="is-active" aria-current="page"' : ""}>${p.label}</a></li>`)
+    .map(p => {
+      const classes = [];
+      if (p.file === here) classes.push("is-active");
+      if (p.isPrimary) classes.push("primary-tab");
+      const classAttr = classes.length ? ` class="${classes.join(" ")}"` : "";
+      const ariaAttr = p.file === here ? ' aria-current="page"' : "";
+      return `<li><a href="${p.file}"${classAttr}${ariaAttr}>${p.label}</a></li>`;
+    })
     .join("");
 
   return `
