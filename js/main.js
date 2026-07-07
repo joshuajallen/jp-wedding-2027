@@ -43,17 +43,23 @@ function currentPage() {
 /* ----- Build header / nav ----- */
 function renderHeader() {
   const here = currentPage();
-  const links = SITE.pages
-    .filter(p => !p.isRsvp)
-    .map(p => {
-      const classes = [];
-      if (p.file === here) classes.push("is-active");
-      if (p.isPrimary) classes.push("primary-tab");
-      const classAttr = classes.length ? ` class="${classes.join(" ")}"` : "";
-      const ariaAttr = p.file === here ? ' aria-current="page"' : "";
-      return `<li><a href="${p.file}"${classAttr}${ariaAttr}>${p.label}</a></li>`;
-    })
-    .join("");
+  const primaryPages = SITE.pages.filter(p => !p.isRsvp && p.isPrimary);
+  const secondaryPages = SITE.pages.filter(p => !p.isRsvp && !p.isPrimary);
+  
+  const primaryLinks = primaryPages.map(p => {
+    const classes = ["primary-tab"];
+    if (p.file === here) classes.push("is-active");
+    const classAttr = ` class="${classes.join(" ")}"`;
+    const ariaAttr = p.file === here ? ' aria-current="page"' : "";
+    return `<li><a href="${p.file}"${classAttr}${ariaAttr}>${p.label}</a></li>`;
+  }).join("");
+  
+  const secondaryLinks = secondaryPages.map(p => {
+    const active = p.file === here ? ' class="is-active"' : "";
+    return `<li><a href="${p.file}"${active}>${p.label}</a></li>`;
+  }).join("");
+  
+  const dropdownActive = secondaryPages.some(p => p.file === here) ? ' is-active' : '';
 
   return `
   <a class="skip-link" href="#main">Skip to content</a>
@@ -64,7 +70,18 @@ function renderHeader() {
         <span></span><span></span><span></span>
       </button>
       <div class="nav__menu" id="navMenu">
-        <ul class="nav__links">${links}</ul>
+        <ul class="nav__links">
+          ${primaryLinks}
+          <li class="nav__dropdown">
+            <button class="nav__dropdown-toggle${dropdownActive}" aria-expanded="false">
+              Other Information
+              <span class="dropdown-arrow">▼</span>
+            </button>
+            <ul class="nav__dropdown-menu">
+              ${secondaryLinks}
+            </ul>
+          </li>
+        </ul>
       </div>
     </nav>
   </header>
@@ -120,6 +137,39 @@ function mountChrome() {
   });
 
   initMobileMenu();
+  initDropdowns();
+}
+
+/* ----- Dropdown menus ----- */
+function initDropdowns() {
+  document.querySelectorAll('.nav__dropdown-toggle').forEach(toggle => {
+    const menu = toggle.nextElementSibling;
+    
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+      
+      // Close all other dropdowns
+      document.querySelectorAll('.nav__dropdown-toggle').forEach(other => {
+        if (other !== toggle) {
+          other.setAttribute('aria-expanded', 'false');
+          other.nextElementSibling.classList.remove('is-open');
+        }
+      });
+      
+      // Toggle this dropdown
+      toggle.setAttribute('aria-expanded', String(!isExpanded));
+      menu.classList.toggle('is-open');
+    });
+  });
+  
+  // Close dropdown when clicking outside
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.nav__dropdown-toggle').forEach(toggle => {
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.nextElementSibling.classList.remove('is-open');
+    });
+  });
 }
 
 /* ----- Mobile menu: drawer + backdrop + scroll lock ----- */
