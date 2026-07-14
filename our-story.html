@@ -2,6 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <script>
+    // Gate: run before any content/CSS/fonts load so there is no flash of
+    // unauthenticated content, even on slow mobile connections.
+    (function () {
+      var page = window.location.pathname.split("/").pop() || "index.html";
+      if (page !== "landing.html" && sessionStorage.getItem("wedding_authenticated") !== "true") {
+        window.location.replace("landing.html");
+      }
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Our Story &middot; Prerna &amp; Josh</title>
   <meta name="description" content="The story of how Prerna & Josh met, and a gallery of moments together." />

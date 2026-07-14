@@ -2,6 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <script>
+    // Gate: run before any content/CSS/fonts load so there is no flash of
+    // unauthenticated content, even on slow mobile connections.
+    (function () {
+      var page = window.location.pathname.split("/").pop() || "index.html";
+      if (page !== "landing.html" && sessionStorage.getItem("wedding_authenticated") !== "true") {
+        window.location.replace("landing.html");
+      }
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Accommodation &middot; Prerna &amp; Josh</title>
   <meta name="description" content="Recommended Nairobi hotels, the Taita room block, budget to luxury tiers and booking deadlines." />
@@ -76,7 +86,7 @@
           <p class="muted">Close to the welcome party location. We'll also develop a list of Airbnbs for those looking to stay in non-hotel options!</p>
         </div>
 
-        <div class="grid grid-3">
+        <div class="grid grid-4">
           <div class="card">
             <span class="badge">Budget</span>
             <h3><a href="https://share.google/VZ2P6nJvk8J43uowt" target="_blank" rel="noopener">Swiss Belinn</a></h3>
@@ -91,6 +101,11 @@
             <span class="badge">Mid-range</span>
             <h3><a href="https://share.google/2IGngnEeFi6rqhbEc" target="_blank" rel="noopener">Palacina</a></h3>
             <p>~$160 per night</p>
+          </div>
+          <div class="card">
+            <span class="badge">Mid-range</span>
+            <h3>Pride Inn</h3>
+            <p>Contact for pricing</p>
           </div>
         </div>
         <div class="grid grid-2" style="margin-top: 1.5rem;">

@@ -35,19 +35,12 @@ const prefersReducedMotion =
 
 /* ----- Determine current page filename -----
    A path ending in "/" (e.g. the bare site root) resolves to index.html,
-   same as the server does — must be resolved BEFORE the auth check below,
-   or the root URL slips through with no filename to compare against. */
+   same as the server does. (The auth gate itself now runs as a blocking
+   inline script in each page's <head> — see landing.html/main.js history —
+   so it fires before any content loads, not after this file downloads.) */
 function currentPage() {
   const path = window.location.pathname.split("/").pop();
   return path === "" ? "index.html" : path;
-}
-
-/* ----- Authentication check ----- */
-// Check if user is authenticated, redirect to landing page if not
-if (currentPage() !== 'landing.html') {
-  if (sessionStorage.getItem('wedding_authenticated') !== 'true') {
-    window.location.href = 'landing.html';
-  }
 }
 
 
