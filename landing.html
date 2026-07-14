@@ -213,11 +213,6 @@
     const submitBtn = document.getElementById('submitPassword');
     const errorMessage = document.getElementById('errorMessage');
     
-    // Check if already authenticated
-    if (sessionStorage.getItem('wedding_authenticated') === 'true') {
-      window.location.href = 'index.html';
-    }
-    
     // Show password modal when envelope is clicked
     envelopeBtn.addEventListener('click', () => {
       passwordModal.classList.add('show');
