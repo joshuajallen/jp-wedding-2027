@@ -33,6 +33,15 @@ document.documentElement.classList.add("js");
 const prefersReducedMotion =
   window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+/* ----- Authentication check ----- */
+// Check if user is authenticated, redirect to landing page if not
+const currentPath = window.location.pathname.split("/").pop();
+if (currentPath !== 'landing.html' && currentPath !== '') {
+  if (sessionStorage.getItem('wedding_authenticated') !== 'true') {
+    window.location.href = 'landing.html';
+  }
+}
+
 /* ----- Determine current page filename ----- */
 function currentPage() {
   const path = window.location.pathname.split("/").pop();
@@ -101,8 +110,8 @@ function renderFooter() {
     <div class="footer__grid footer">
       <div>
         <div class="footer__brand">Prerna <span>&amp;</span> Josh</div>
-        <p>June 12&ndash;15, 2027 &middot; Kenya</p>
-        <p class="muted">Join us for our next big adventure&mdash;our wedding in Kenya.</p>
+        <p style="color: var(--color-cream);">June 12&ndash;15, 2027 &middot; Kenya</p>
+        <p style="color: var(--color-cream); opacity: 0.9;">Join us for our next big adventure&mdash;our wedding in Kenya.</p>
       </div>
       <div>
         <h4>Explore</h4>

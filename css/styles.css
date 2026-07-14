@@ -198,6 +198,25 @@ p { margin: 0 0 1em; }
 .divider::before { --dir: left; }
 .divider svg { width: 26px; height: 26px; }
 
+/* ---------- Photo galleries ----------
+   Uniform, cropped tiles so mixed-aspect-ratio source photos still line
+   up into a tidy grid instead of ragged, mismatched heights. */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+@media (min-width: 700px) {
+  .gallery--3 { grid-template-columns: repeat(3, 1fr); }
+}
+.gallery img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
 /* ---------- Placeholder blocks ---------- */
 .placeholder-img {
   display: flex;
