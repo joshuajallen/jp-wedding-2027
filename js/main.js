@@ -33,19 +33,21 @@ document.documentElement.classList.add("js");
 const prefersReducedMotion =
   window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/* ----- Authentication check ----- */
-// Check if user is authenticated, redirect to landing page if not
-const currentPath = window.location.pathname.split("/").pop();
-if (currentPath !== 'landing.html' && currentPath !== '') {
-  if (sessionStorage.getItem('wedding_authenticated') !== 'true') {
-    window.location.href = 'landing.html';
-  }
-}
-
-/* ----- Determine current page filename ----- */
+/* ----- Determine current page filename -----
+   A path ending in "/" (e.g. the bare site root) resolves to index.html,
+   same as the server does — must be resolved BEFORE the auth check below,
+   or the root URL slips through with no filename to compare against. */
 function currentPage() {
   const path = window.location.pathname.split("/").pop();
   return path === "" ? "index.html" : path;
+}
+
+/* ----- Authentication check ----- */
+// Check if user is authenticated, redirect to landing page if not
+if (currentPage() !== 'landing.html') {
+  if (sessionStorage.getItem('wedding_authenticated') !== 'true') {
+    window.location.href = 'landing.html';
+  }
 }
 
 
