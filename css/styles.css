@@ -935,7 +935,7 @@ body.nav-open {
   padding-inline: 1.5rem;
 }
 @media (min-width: 700px) {
-  .footer__grid { grid-template-columns: 2fr 1fr 1fr; }
+  .footer__grid { grid-template-columns: 2fr 1fr; }
 }
 .footer__brand {
   font-family: var(--font-serif);

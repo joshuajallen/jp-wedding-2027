@@ -112,13 +112,6 @@ function renderFooter() {
         <h4>Explore</h4>
         <ul>${quickLinks}</ul>
       </div>
-      <div>
-        <h4>Get in touch</h4>
-        <ul>
-          <li><a href="contact.html">Contact us</a></li>
-          <li><a href="rsvp.html">RSVP</a></li>
-        </ul>
-      </div>
     </div>
     <div class="footer__bottom">
       <p>Hand-coded with love for our celebration in Kenya by Joshua Allen &middot; &copy; 2027 Prerna &amp; Josh</p>
