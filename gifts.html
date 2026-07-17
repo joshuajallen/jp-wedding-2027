@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <script>
+    // Gate: run before any content/CSS/fonts load so there is no flash of
+    // unauthenticated content, even on slow mobile connections.
+    (function () {
+      var page = window.location.pathname.split("/").pop() || "index.html";
+      if (page !== "landing.html" && sessionStorage.getItem("wedding_authenticated") !== "true") {
+        window.location.replace("landing.html");
+      }
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gifts &middot; Prerna &amp; Josh</title>
+  <meta name="description" content="Your presence is the only gift we need — details on our travel fund for anyone who'd like to contribute." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600&display=swap" /></noscript>
+  <link rel="stylesheet" href="css/styles.css?v=3" />
+</head>
+<body>
+  <div id="site-header"></div>
+
+  <main id="main">
+
+    <!-- MODULE: Page banner -->
+    <section class="page-banner">
+      <div class="container">
+        <span class="eyebrow">Gifts</span>
+        <h1>Your presence is present enough</h1>
+        <p>Having you with us in Kenya is all we could ask for.</p>
+      </div>
+    </section>
+
+    <!-- MODULE: Travel fund -->
+    <section class="section">
+      <div class="container">
+        <div class="card" style="max-width: 700px; margin: 0 auto;">
+          <span class="eyebrow">Travel Fund</span>
+          <h2>Still want to give something?</h2>
+          <p>[Travel fund message placeholder — e.g. If you'd like to contribute, we're putting together a fund to help toward the cost of the wedding trip rather than a traditional registry.]</p>
+          <ul class="detail-list">
+            <li><span class="label">Fund link</span><span>[Travel fund / registry link placeholder]</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="js/main.js?v=3"></script>
+</body>
+</html>

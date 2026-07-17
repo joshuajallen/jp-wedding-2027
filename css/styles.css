@@ -687,6 +687,19 @@ body.nav-open {
 }
 .page-banner p { color: var(--text-muted); max-width: 640px; margin-inline: auto; }
 
+/* ---------- In-page section menu (e.g. Wedding Details) ---------- */
+.page-subnav {
+  background: var(--color-cream-soft);
+  border-bottom: 1px solid var(--border);
+}
+.page-subnav .tabs__nav {
+  margin-bottom: 0;
+  padding-block: 0.9rem;
+}
+.page-subnav .tabs__btn {
+  display: inline-block;
+}
+
 /* ---------- Detail / definition rows ---------- */
 .detail-list {
   list-style: none;

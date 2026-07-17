@@ -9,8 +9,7 @@
 
 /* ----- Site-wide config (edit once, applies everywhere) ----- */
 const SITE = {
-  // TODO: replace with the real external RSVP link when supplied.
-  rsvpUrl: "#RSVP_LINK_PLACEHOLDER",
+  rsvpUrl: "https://docs.google.com/forms/d/e/1FAIpQLScPe9LEk8UzDUbRCV-Mz1FZG86uiAy-_JNQq6n8Yx17wi8wiA/viewform?usp=dialog",
   coupleShort: "P <span>&amp;</span> J",
   // Order of nav tabs. `file` matches the page filename.
   // Primary tabs are shown larger/more prominent
@@ -21,6 +20,7 @@ const SITE = {
     { file: "travel.html",       label: "Travel" },
     { file: "accommodation.html", label: "Accommodation" },
     { file: "things-to-do.html", label: "Things To Do" },
+    { file: "gifts.html",        label: "Gifts" },
     { file: "faq.html",          label: "FAQ" },
     { file: "rsvp.html",         label: "RSVP", isRsvp: true }
   ]
@@ -94,7 +94,7 @@ function renderHeader() {
 
 /* ----- Build footer ----- */
 function renderFooter() {
-  const quick = ["wedding-details.html", "travel.html", "accommodation.html", "faq.html"];
+  const quick = ["wedding-details.html", "travel.html", "accommodation.html", "gifts.html", "faq.html"];
   const quickLinks = SITE.pages
     .filter(p => quick.includes(p.file))
     .map(p => `<li><a href="${p.file}">${p.label}</a></li>`)

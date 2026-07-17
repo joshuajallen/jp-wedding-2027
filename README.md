@@ -32,6 +32,7 @@ accommodation.html      Accommodation
 rsvp.html               RSVP
 faq.html                FAQ
 things-to-do.html       Things To Do
+gifts.html              Gifts / Travel Fund
 contact.html            Contact Us
 css/styles.css          Shared design system
 js/main.js              Shared header/footer injection + interactions
