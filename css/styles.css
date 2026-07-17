@@ -577,6 +577,11 @@ p { margin: 0 0 1em; }
     font-size: 1.1rem;
     text-align: center;
   }
+  .nav__dropdown-toggle {
+    padding: 0.9rem 1rem;
+    text-align: center;
+    white-space: normal;
+  }
 }
 
 /* Lock the page behind the open drawer without a scroll "jump".
