@@ -122,6 +122,7 @@ function renderFooter() {
     </div>
     <div class="footer__bottom">
       <p>Made with love for our celebration in Kenya &middot; &copy; 2027 Prerna &amp; Josh</p>
+      <p style="margin-top: 0.4rem; opacity: 0.7;">Hand-coded by Joshua Allen &mdash; no elephants were harmed in the production of this website.</p>
     </div>
   </footer>`;
 }
