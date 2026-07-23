@@ -729,6 +729,12 @@ body.nav-open {
   font-weight: 600;
   color: var(--color-forest);
 }
+.detail-list li > span:last-child {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
 
 /* ---------- Timeline (Wedding Details flow options) ---------- */
 .timeline {
