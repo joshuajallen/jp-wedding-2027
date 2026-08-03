@@ -8,6 +8,7 @@
     (function () {
       var page = window.location.pathname.split("/").pop() || "index.html";
       if (page !== "landing.html" && sessionStorage.getItem("wedding_authenticated") !== "true") {
+        sessionStorage.setItem("wedding_redirect_target", window.location.pathname + window.location.search + window.location.hash);
         window.location.replace("landing.html");
       }
     })();

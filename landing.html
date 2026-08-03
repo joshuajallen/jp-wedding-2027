@@ -244,7 +244,9 @@
       if (password === CORRECT_PASSWORD) {
         sessionStorage.setItem('wedding_authenticated', 'true');
         errorMessage.classList.remove('show');
-        window.location.href = 'index.html';
+        var target = sessionStorage.getItem('wedding_redirect_target');
+        sessionStorage.removeItem('wedding_redirect_target');
+        window.location.href = target || 'index.html';
       } else {
         errorMessage.classList.add('show');
         passwordInput.value = '';
